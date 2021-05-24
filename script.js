@@ -1,40 +1,54 @@
-const rows = document.getElementsByClassName("row");
-let currentHour = parseInt(moment().format('H'));
+// JQuery
+//CDN Link - Content Delivery Network Link 
+$("#date").text(moment().format("MMM Do YY"));
+//grab and save content from di for each hour
+$(".save").click(function(){
+  //creating the logic for the click event
+  var parentTime = $(this).parent().attr("id");
+  //grabbing the content of the textarea using the siblings method (JQuery) and value method
+  var content = $(this).siblings('.content').val();
 
-Array.from(rows).forEach(row => {
-  let
-    rowIdString = row.id,
-    rowHour;
-  if (rowIdString) {
-    rowHour = parseInt(rowIdString);
-  }
-  if (rowHour) {
-    // Compares row id to current hour and sets color accordingly
-    if (currentHour === rowHour) {
-      setColor(row, "red");
-    } else if ((currentHour < rowHour) && (currentHour > rowHour - 6)) {
-      setColor(row, "green");
-    } else if ((currentHour > rowHour) && (currentHour < rowHour + 6)) {
-      setColor(row, "lightgrey");
-    } else {
-      setColor(row, "white");
-    }
-  }
-});
+  console.log(parentTime, content);
 
-function setColor(element, color) {
-  element.style.backgroundColor = color;
+  localStorage.setItem(parentTime, content)
+  
+})
+
+//what is parent 
+
+//what is siblings 
+
+//what is this
+
+//change the row background using JQuery syntax
+function backgroundChange(){ 
+  // retrieve the current time
+var currentTime = moment().hours();
+  // check each time block using DRY and JQuery syntax
+
+$(".row").each(function(){
+  //the value of each row's id which is the time 
+var iNum = parseInt($(this).attr("id"));
+
+ // check the current status of each time (past, present, future)
+ if(iNum < currentTime){
+    // grab the current add a class of past to it 
+    $(this).addClass("past");
+ }else if(iNum === currentTime){
+    $(this).addClass("present");
+    $(this).removeClass("past");
+ }else{
+  $(this).addClass("future");
+  $(this).removeClass("past");
+  $(this).removeClass("present");
+//future added 
+//past & present removed 
+
+ }
+    // and adjust class accordingly
+})
+ 
+
+
 }
-var currentHour = Date.now().getHours();
-$('.colorcode').each(function(){
-    var val = parseInt($(this).prop('id'));
-    if(val > currentHour && val < currentHour+6){
-        $(this).css('background-color','Blue');
-    }else if(val < currentHour && val > currentHour-6){
-        $(this).css('background-color','Red');
-    }else if(val === currentHour){
-        $(this).css('background-color','Green');
-    }else{
-        $(this).css('background-color','White');
-    }
-});
+backgroundChange();
